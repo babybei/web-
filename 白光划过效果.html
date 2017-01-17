@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>白光划过效果</title>
+	<style type="text/css">
+		.highlight-box{
+			width: 450px;
+			height: 300px;
+			overflow: hidden;
+			position: relative;
+		}
+		.highlight-box img{
+			width: 100%;
+			height: 100%;
+		}
+		/*说明：静态图片已经有了，接着让我们来制作白光，我们不需多余的元素，只需使用:before选择器：*/
+		.highlight-box:before{
+			display: block;
+			/*注意这里top和left，让白光移动到图片左上角，
+    		后续的划过动画也是依靠这两个属性*/
+			top: -200%;
+			left: -100%;
+			/*定义白光的宽高*/
+			width: 50%;
+			height: 300%;
+			/*旋转角度，你也可以调整*/
+			-webkit-transform: rotate(45deg);
+			transform:rotate(45deg);
+			/*使用渐变来实现白光*/
+			background:-webkit-linear-gradient(left,rgba(255,255,255,.05) 20%, rgba(255,255,255,.6) 65%,rgba(255,255,255,.05) 100%);
+			background:linear-gradient(left,rgba(255,255,255,.05) 20%, rgba(255,255,255,.6) 65%,rgba(255,255,255,.05) 100%);
+			content: '';
+			z-index: 2;
+			position: absolute;
+		}
+		
+		/*说明：我们使用渐变（linear-gradient）来实现白光效果，同时为了斜向划过，使用transform: rotate(45deg)将其旋转45度。
+
+		上面的height、width、top和left，你也可以使用具体的像素值，不过建议采用百分比，这样可以重复使用，而不需手动改变太多值。
+
+		图片有了，白光有了，接下来就是让白光动起来：*/
+		.highlight-box:hover:before{
+			/*这里省略了私有前缀代码*/
+			animation: crossed .8s linear;
+		}
+		@keyframes crossed{
+			0%{
+				top:-200%;
+				left: -100%;
+			}
+			100%{
+				top:-50%;
+				left: 100%;
+			}
+		}
+		/*说明：我们需要改变的只是top和left的值，也就是让白光从左上角向右下角移动。到这里，白光划过效果已经实现了。*/
+	</style>
+</head>
+<body>
+	<div class="highlight-box">
+		<img src="img/1.jpg">
+	</div>
+</body>
+</html>
