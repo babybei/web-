@@ -3,16 +3,229 @@
 <head>
 	<meta charset="UTF-8">
 	<title>3D立方体</title>
+	<style type="text/css">
+	.box {
+	    position: absolute;
+	    top: 30%;
+	    left: 200px;
+	    margin-top: -150px;
+	    -webkit-transition: transform .6s;
+	    transition: transform .6s;
+	}
+	.cude{
+		width: 300px;
+		height: 300px;
+		position: relative;
+		margin: 100px auto;
+		transform-style:preserve-3d;
+		-webit-transform-style:preserve-3d;
+		/*说明：transform-style 属性规定如何在 3D 空间中呈现被嵌套的元素，默认是其子元素不呈现3D效果，所以我们需要添加preserve-3d值，让其子元素保留其 3D 效果。*/
+		-webkit-transform: rotateX(-30deg) rotateY(-80deg);
+		-ms-transform: rotateX(-30deg) rotateY(-80deg);
+		-o-transform: rotateX(-30deg) rotateY(-80deg);
+		transform: rotateX(-30deg) rotateY(-80deg);
+		-webkit-transform-origin: 50% 50% 0;
+		-moz-transform-origin: 50% 50% 0;
+		-ms-transform-origin: 50% 50% 0;
+		-o-transform-origin: 50% 50% 0;
+		transform-origin: 50% 50% 0;
+		animation: rotate 20s infinite;
+		-webkit-animation: rotate 20s infinite;
+	}
+	/*接下来，我们制作立方体的每一个面：*/
+	.surface{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 300px;
+		height: 300px;
+		background: #666;
+		opacity: 0.8;
+		font-size: 60px;
+		text-align: center;
+		font-weight: bold;
+		color: #fff;
+		border: 1px solid #fff;
+		-webkit-transition: all .3s;
+		transition:all .3s;
+	}
+	.surface img{
+		width: 100%;
+	}
+	.front{
+		-webkit-transform: rotateY(0)  translateZ(150px);
+		-ms-transform: rotateY(0)  translateZ(150px);
+		-o-transform: rotateY(0)  translateZ(150px);
+		transform: rotateY(0)  translateZ(150px);
+	}
+	.back{
+		-webkit-transform: translateZ(-150px) rotateY(180deg);
+		-ms-transform: translateZ(-150px) rotateY(180deg);
+		-o-transform: translateZ(-150px) rotateY(180deg);
+		transform: translateZ(-150px) rotateY(180deg);
+	}
+	.left{
+		-webkit-transform: rotateY(-90deg) translateZ(150px);
+		-ms-transform: rotateY(-90deg) translateZ(150px);
+		-o-transform: rotateY(-90deg) translateZ(150px);
+		transform: rotateY(-90deg) translateZ(150px);
+	}
+	.right{
+		-webkit-transform: rotateY(90deg) translateZ(150px);
+		-ms-transform: rotateY(90deg) translateZ(150px);
+		-o-transform: rotateY(90deg) translateZ(150px);
+		transform: rotateY(90deg) translateZ(150px);
+	}
+	.top{
+		-webkit-transform: rotateX(90deg) translateZ(150px);
+		-ms-transform: rotateX(90deg) translateZ(150px);
+		-o-transform: rotateX(90deg) translateZ(150px);
+		transform: rotateX(90deg) translateZ(150px);
+	}
+	.bottom{
+		-webkit-transform: rotateX(90deg) translateZ(-150px);
+		-ms-transform: rotateX(90deg) translateZ(-150px);
+		-o-transform: rotateX(90deg) translateZ(-150px);
+		transform: rotateX(90deg) translateZ(-150px);
+	}
+	.cude:hover .front{
+		-webkit-transform: rotateY(0) translateZ(200px);
+		-ms-transform: rotateY(0) translateZ(200px);
+		-o-transform: rotateY(0) translateZ(200px);
+		transform: rotateY(0) translateZ(200px);
+	}
+	.cude:hover .back{
+		-webkit-transform: translateZ(-200px) rotateY(180deg);
+		-ms-transform: translateZ(-200px) rotateY(180deg);
+		-o-transform: translateZ(-200px) rotateY(180deg);
+		transform: translateZ(-200px) rotateY(180deg);
+	}
+	.cude:hover .left{
+		-webkit-transform: rotateY(-90deg) translateZ(200px);
+		-ms-transform: rotateY(-90deg) translateZ(200px);
+		-o-transform: rotateY(-90deg) translateZ(200px);
+		transform: rotateY(-90deg) translateZ(200px);
+	}
+	.cude:hover .right{
+		-webkit-transform: rotateY(90deg) translateZ(200px);
+		-ms-transform: rotateY(90deg) translateZ(200px);
+		-o-transform: rotateY(90deg) translateZ(200px);
+		transform: rotateY(90deg) translateZ(200px);
+	}
+	.cude:hover .top{
+		-webkit-transform: rotateX(90deg) translateZ(200px);
+		-ms-transform: rotateX(90deg) translateZ(200px);
+		-o-transform: rotateX(90deg) translateZ(200px);
+		transform: rotateX(90deg) translateZ(200px);
+	}
+	.cude:hover .bottom{
+		-webkit-transform: rotateX(90deg) translateZ(-200px);
+		-ms-transform: rotateX(90deg) translateZ(-200px);
+		-o-transform: rotateX(90deg) translateZ(-200px);
+		transform: rotateX(90deg) translateZ(-200px);
+	}
+	/*说明：在上面的代码中，我们使用transform的rotate()和translateZ()来转换每一面，平移都是宽度的一半。
+
+	要注意rotate()和translateZ()的顺序，顺序不同，转换的结果也会不一样，比如左侧.left这一面，在这里，我们是先绕着Y轴顺时针旋转90，然后再在Z轴的正方向平移150，如果你先平移后旋转，结果就不一样了，你可以试试。
+
+	最后，我们还给div.cude加上动画：*/
+	@-webkit-keyframes rotate{
+		from{
+			-webkit-transform: rotateX(0deg) rotateY(0deg);
+			-ms-transform: rotateX(0deg) rotateY(0deg);
+			-o-transform: rotateX(0deg) rotateY(0deg);
+			transform: rotateX(0deg) rotateY(0deg);
+		}
+		to{
+			-webkit-transform: rotateX(360deg) rotateY(360deg);
+			-ms-transform: rotateX(360deg) rotateY(360deg);
+			-o-transform: rotateX(360deg) rotateY(360deg);
+			transform: rotateX(360deg) rotateY(360deg);
+		}
+	}
+
+	/*内部六面*/
+	.surface-in{
+		width: 150px;
+		height: 150px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -75px;
+		margin-left: -75px;
+	}
+	.surface-in img{
+		width: 150px;
+		height: 150px;
+	}
+	.front-in{
+		-webkit-transform: rotateY(0) translateZ(75px);
+		-ms-transform: rotateY(0) translateZ(75px);
+		-o-transform: rotateY(0) translateZ(75px);
+		transform: rotateY(0) translateZ(75px);
+	}
+	.back-in{
+		-webkit-transform: rotateY(180deg) translateZ(75px);
+		-ms-transform: rotateY(180deg) translateZ(75px);
+		-o-transform: rotateY(180deg) translateZ(75px);
+		transform: rotateY(180deg) translateZ(75px);
+	}
+	.left-in{
+		-webkit-transform: rotateY(-90deg) translateZ(75px);
+		-ms-transform: rotateY(-90deg) translateZ(75px);
+		-o-transform: rotateY(-90deg) translateZ(75px);
+		transform: rotateY(-90deg) translateZ(75px);
+	}
+	.right-in{
+		-webkit-transform: rotateY(90deg) translateZ(75px);
+		-ms-transform: rotateY(90deg) translateZ(75px);
+		-o-transform: rotateY(90deg) translateZ(75px);
+		transform: rotateY(90deg) translateZ(75px);
+	}
+	.top-in{
+		-webkit-transform: rotateX(90deg) translateZ(-75px);
+		-ms-transform: rotateX(90deg) translateZ(-75px);
+		-o-transform: rotateX(90deg) translateZ(-75px);
+		transform: rotateX(90deg) translateZ(-75px);
+	}
+	.bottom-in{
+		-webkit-transform: rotateX(-90deg) translateZ(-75px);
+		-ms-transform: rotateX(-90deg) translateZ(-75px);
+		-o-transform: rotateX(-90deg) translateZ(-75px);
+		transform: rotateX(-90deg) translateZ(-75px);
+	}
+	</style>
 </head>
 <body>
 <!-- 说明：首先来放置一个父div.cude，然后在其里面放置6个div，分别表示立方体的6个面。 -->
-	<div class="cude">
-		<div class="front surface">正面</div>
-		<div class="surface left">左面</div>
-		<div class="surface right">右面</div>
-		<div class="surface bottom">底面</div>
-		<div class="surface top">顶面</div>
-		<div class="surface back">背面</div>
+	<div class="box">
+		<div class="cude">
+			<div class="front surface">正面</div>
+			<div class="surface left">左面</div>
+			<div class="surface right">右面</div>
+			<div class="surface bottom">底面</div>
+			<div class="surface top">顶面</div>
+			<div class="surface back">背面</div>
+
+			<div class="surface-in front-in">
+				<img src="img/2.jpg" alt="小清新">
+			</div>
+			<div class="surface-in back-in">
+				<img src="img/2.jpg" alt="小清新">
+			</div>
+			<div class="surface-in left-in">
+				<img src="img/2.jpg" alt="小清新">
+			</div>
+			<div class="surface-in right-in">
+				<img src="img/2.jpg" alt="小清新">
+			</div>
+			<div class="surface-in top-in">
+				<img src="img/2.jpg" alt="小清新">
+			</div>
+			<div class="surface-in bottom-in">
+				<img src="img/2.jpg" alt="小清新">
+			</div>
+		</div>
 	</div>
 </body>
 </html>
